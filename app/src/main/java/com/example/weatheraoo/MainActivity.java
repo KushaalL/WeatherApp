@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                         result += line;
                         line = br.readLine();
                     }
-                    System.out.println(result);
+                    Log.d("Tag",result);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
