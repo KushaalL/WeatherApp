@@ -42,12 +42,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("Tag","Button Click");
                 zip = enterZip.getText().toString();
-                new async().execute();
+                new async1().execute();
+
             }
         });
 
     }
-    private class async extends AsyncTask<Void, Void, JSONObject>
+    private class async1 extends AsyncTask<Void, Void, JSONObject>
     {
 
         @Override
@@ -93,8 +94,17 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
+        }
+    }
+    private class async2 extends AsyncTask<JSONObject,Void,JSONObject>
+    {
+        @Override
+        protected JSONObject doInBackground(JSONObject... jsonObjects)
+        {
+//            String lat = JSONObject.get("lat").toString();
+            String lon = "";
+            String api = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid=bd3781344d566d4bc40873a6423d9d99";
+            return null;
         }
     }
 }
