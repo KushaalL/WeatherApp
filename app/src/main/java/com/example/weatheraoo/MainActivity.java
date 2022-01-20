@@ -2,23 +2,32 @@ package com.example.weatheraoo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
+
 public class MainActivity extends AppCompatActivity {
 
     String key = "bd3781344d566d4bc40873a6423d9d99";
     EditText enterZip;
     Button button;
+    String zip = "";
+    TextView text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,32 +35,66 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         enterZip = findViewById(R.id.enterZip);
         button = findViewById(R.id.button);
-        String zip = "";
-        String api = "http://api.openweathermap.org/geo/1.0/zip?zip="+zip+",US&appid=bd3781344d566d4bc40873a6423d9d99";
+        text = findViewById(R.id.textView);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    URL url = new URL(api);
-                    URLConnection connection = url.openConnection();
-                    InputStream response = connection.getInputStream();
-                    BufferedReader br = new BufferedReader(new InputStreamReader(response));
-                    String line = br.readLine();
-                    String result = "";
-                    while(line!=null)
-                    {
-                        result += line;
-                        line = br.readLine();
-                    }
-                    Log.d("Tag",result);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Log.d("Tag","Button Click");
+                zip = enterZip.getText().toString();
+                new async().execute();
             }
         });
 
+    }
+    private class async extends AsyncTask<Void, Void, JSONObject>
+    {
 
+        @Override
+        protected JSONObject doInBackground(Void... voids) {
+            String api = "https://api.openweathermap.org/geo/1.0/zip?zip="+zip+",US&appid=bd3781344d566d4bc40873a6423d9d99";
+            Log.d("Tag",api);
+            String result = "";
+            JSONObject finalJson = new JSONObject();
+            try {
+                URL url = new URL(api);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                InputStream response = connection.getInputStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(response));
+                String line = br.readLine().toString();
+                while(line!=null)
+                {
+                    result += line;
+                    line = br.readLine();
+                }
+                JSONObject jsonObject = new JSONObject(result);
+                finalJson = jsonObject;
+
+            } catch (MalformedURLException e) {
+                Log.d("Tag",e.toString());
+                Log.d("Tag","Catch1");
+            } catch (IOException e) {
+                Log.d("Tag",e.toString());
+                Log.d("Tag","Catch2");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.d("Tag",result);
+
+            return finalJson;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
+            try {
+                text.setText(jsonObject.get("lat").toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
     }
 }
