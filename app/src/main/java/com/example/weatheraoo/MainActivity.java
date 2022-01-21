@@ -28,14 +28,18 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     String zip = "";
     TextView text;
+    TextView longitude;
+    TextView latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        enterZip = findViewById(R.id.enterZip);
-        button = findViewById(R.id.button);
-        text = findViewById(R.id.textView);
+        enterZip = findViewById(R.id.editZip);
+        button = findViewById(R.id.butZip);
+        text = findViewById(R.id.enterZip);
+        longitude = findViewById(R.id.textViewLongitude);
+        latitude = findViewById(R.id.textViewLatitude);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,20 +94,48 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
             try {
-                text.setText(jsonObject.get("lat").toString());
+                longitude.setText(jsonObject.get("lon").toString());
+                latitude.setText(jsonObject.get("lat").toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
-    private class async2 extends AsyncTask<JSONObject,Void,JSONObject>
+    private class async2 extends AsyncTask<Void,Void,JSONObject>
     {
+
         @Override
-        protected JSONObject doInBackground(JSONObject... jsonObjects)
-        {
-//            String lat = JSONObject.get("lat").toString();
-            String lon = "";
-            String api = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid=bd3781344d566d4bc40873a6423d9d99";
+        protected JSONObject doInBackground(Void... voids) {
+            String lon = longitude.getText().toString();
+            String lat = latitude.getText().toString();
+            String api = "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat={lat}&lon={lon}&dt={time}&appid=bd3781344d566d4bc40873a6423d9d99";
+            String result = "";
+            JSONObject myJson = new JSONObject();
+            try {
+                URL url = new URL(api);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                InputStream response = connection.getInputStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(response));
+                String line = br.readLine().toString();
+                while(line!=null)
+                {
+                    result += line;
+                    line = br.readLine();
+                }
+                JSONObject jsonObject = new JSONObject(result);
+                myJson = jsonObject;
+
+            } catch (MalformedURLException e) {
+                Log.d("Tag",e.toString());
+                Log.d("Tag","Catch1");
+            } catch (IOException e) {
+                Log.d("Tag",e.toString());
+                Log.d("Tag","Catch2");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.d("Tag",result);
             return null;
         }
     }
