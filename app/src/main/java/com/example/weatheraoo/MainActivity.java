@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     TextView text;
     TextView longitude;
     TextView latitude;
+    String lon = "";
+    String lat = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +98,11 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
             try {
-                longitude.setText(jsonObject.get("lon").toString());
-                latitude.setText(jsonObject.get("lat").toString());
+
+                lon = jsonObject.get("lon").toString();
+                lat = jsonObject.get("lat").toString();
+                longitude.setText("Longitude: "+lon);
+                latitude.setText("Latitude: "+lat);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -107,9 +113,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected JSONObject doInBackground(Void... voids) {
-            String lon = longitude.getText().toString();
-            String lat = latitude.getText().toString();
-            String api = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid=bd3781344d566d4bc40873a6423d9d99";
+            String api = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&exclude={part}&appid=bd3781344d566d4bc40873a6423d9d99";
+            Log.d("Tag",api);
             String result = "";
             JSONObject myJson = new JSONObject();
             try {
@@ -129,12 +134,13 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (MalformedURLException e) {
                 Log.d("Tag",e.toString());
-                Log.d("Tag","Catch1");
+                Log.d("Tag","Catch3");
             } catch (IOException e) {
                 Log.d("Tag",e.toString());
-                Log.d("Tag","Catch2");
+                Log.d("Tag","Catch4");
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.d("Tag",e.toString());
+                Log.d("Tag","Catch5");
             }
             Log.d("Tag",result);
             return null;

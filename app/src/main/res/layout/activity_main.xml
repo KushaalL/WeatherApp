@@ -16,16 +16,16 @@
             android:gravity="center"/>
 
     <EditText
-        android:id="@+id/editZip"
-        android:layout_width="181dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.14"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enterZip" />
+            android:id="@+id/editZip"
+            android:layout_width="181dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.14"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enterZip" android:gravity="center"/>
     <Button
             android:text="Button"
             android:layout_width="108dp"
@@ -48,4 +48,54 @@
             app:layout_constraintStart_toEndOf="@+id/textViewLongitude"
             app:layout_constraintTop_toTopOf="@+id/textViewLongitude"
             app:layout_constraintBottom_toBottomOf="@+id/textViewLongitude"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="101dp"
+            android:layout_height="27dp" android:id="@+id/textViewH1"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="7dp"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewH1" android:layout_marginStart="18dp"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="101dp"
+            android:layout_height="27dp" android:id="@+id/textViewH3"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="18dp" android:layout_marginTop="7dp"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewH3"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="101dp"
+            android:layout_height="24dp" android:id="@+id/textViewH2"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="7dp" app:layout_constraintTop_toBottomOf="@+id/imageViewH2"
+            android:layout_marginEnd="108dp"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="101dp"
+            android:layout_height="27dp" android:id="@+id/textViewH4"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="108dp" android:layout_marginTop="7dp"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewH4"/>
+    <ImageView
+            android:layout_width="101dp"
+            android:layout_height="103dp" tools:srcCompat="@tools:sample/avatars" android:id="@+id/imageViewH1"
+            android:layout_marginTop="14dp"
+            app:layout_constraintTop_toBottomOf="@+id/textViewLongitude" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="18dp"/>
+    <ImageView
+            android:layout_width="101dp"
+            android:layout_height="103dp" tools:srcCompat="@tools:sample/avatars" android:id="@+id/imageViewH3"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="18dp" android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/textViewH1"/>
+    <ImageView
+            android:layout_width="101dp"
+            android:layout_height="103dp" tools:srcCompat="@tools:sample/avatars" android:id="@+id/imageViewH4"
+            android:layout_marginTop="15dp" app:layout_constraintTop_toBottomOf="@+id/textViewH2"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="108dp"/>
+    <ImageView
+            android:layout_width="101dp"
+            android:layout_height="103dp" tools:srcCompat="@tools:sample/avatars" android:id="@+id/imageViewH2"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="108dp"
+            android:layout_marginTop="14dp" app:layout_constraintTop_toBottomOf="@+id/textViewLatitude"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
