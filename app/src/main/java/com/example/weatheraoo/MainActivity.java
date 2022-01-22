@@ -1,5 +1,6 @@
 package com.example.weatheraoo;
 
+import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,8 +23,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity
+{
     String key = "bd3781344d566d4bc40873a6423d9d99";
     EditText enterZip;
     Button button;
@@ -30,10 +32,16 @@ public class MainActivity extends AppCompatActivity {
     TextView text;
     TextView longitude;
     TextView latitude;
+    ImageView image1;
+    ImageView image2;
+    ImageView image3;
+    ImageView image4;
+    TextView text1;
+    TextView text2;
+    TextView text3;
+    TextView text4;
     String lon = "";
     String lat = "";
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +51,14 @@ public class MainActivity extends AppCompatActivity {
         text = findViewById(R.id.enterZip);
         longitude = findViewById(R.id.textViewLongitude);
         latitude = findViewById(R.id.textViewLatitude);
-
+        image1 = findViewById(R.id.imageViewH1);
+        image2 = findViewById(R.id.imageViewH2);
+        image3 = findViewById(R.id.imageViewH3);
+        image4 = findViewById(R.id.imageViewH4);
+        text1 = findViewById(R.id.textViewH1);
+        text2 = findViewById(R.id.textViewH2);
+        text3 = findViewById(R.id.textViewH3);
+        text4 = findViewById(R.id.textViewH4);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,11 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
     }
     private class async1 extends AsyncTask<Void, Void, JSONObject>
     {
-
         @Override
         protected JSONObject doInBackground(Void... voids) {
             String api = "https://api.openweathermap.org/geo/1.0/zip?zip="+zip+",US&appid=bd3781344d566d4bc40873a6423d9d99";
@@ -93,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
 
             return finalJson;
         }
-
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
@@ -110,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
     }
     private class async2 extends AsyncTask<Void,Void,JSONObject>
     {
-
         @Override
         protected JSONObject doInBackground(Void... voids) {
             String api = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&exclude={part}&appid=bd3781344d566d4bc40873a6423d9d99";
@@ -131,6 +142,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 JSONObject jsonObject = new JSONObject(result);
                 myJson = jsonObject;
+                JSONArray array = new JSONArray();
+                array.put(myJson);
+                Log.d("Tag", "Array: "+array);
 
             } catch (MalformedURLException e) {
                 Log.d("Tag",e.toString());
