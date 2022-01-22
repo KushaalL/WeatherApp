@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Tag","Button Click");
                 zip = enterZip.getText().toString();
                 new async1().execute();
+                new async2().execute();
 
             }
         });
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         protected JSONObject doInBackground(Void... voids) {
             String lon = longitude.getText().toString();
             String lat = latitude.getText().toString();
-            String api = "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat={lat}&lon={lon}&dt={time}&appid=bd3781344d566d4bc40873a6423d9d99";
+            String api = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid=bd3781344d566d4bc40873a6423d9d99";
             String result = "";
             JSONObject myJson = new JSONObject();
             try {
