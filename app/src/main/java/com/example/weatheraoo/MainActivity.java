@@ -142,9 +142,6 @@ public class MainActivity extends AppCompatActivity
                 }
                 JSONObject jsonObject = new JSONObject(result);
                 myJson = jsonObject;
-                JSONArray array = new JSONArray();
-                array.put(myJson);
-                Log.d("Tag", "Array: "+array);
 
             } catch (MalformedURLException e) {
                 Log.d("Tag",e.toString());
@@ -157,7 +154,7 @@ public class MainActivity extends AppCompatActivity
                 Log.d("Tag","Catch5");
             }
             Log.d("Tag",result);
-            return null;
+            return myJson;
         }
     }
 }
