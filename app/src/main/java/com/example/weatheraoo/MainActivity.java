@@ -64,17 +64,7 @@ public class MainActivity extends AppCompatActivity
         list.add(4);
         ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(this,R.layout.support_simple_spinner_dropdown_item,list);
         spinner.setAdapter(arrayAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                hSelect = i-1;
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                hSelect = 4;
-            }
-        });
         temp = findViewById(R.id.textViewTemp);
         time = findViewById(R.id.textViewTime);
         description = findViewById(R.id.textViewDescription);
@@ -83,6 +73,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Log.d("Tag","Button Click");
                 zip = enterZip.getText().toString();
+                hSelect = (int) spinner.getSelectedItem();
                 new async1().execute();
                 new async2().execute();
 
@@ -143,16 +134,17 @@ public class MainActivity extends AppCompatActivity
     {
         int intialTime = 0;
         int timeOff = 0;
+
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
             try {
-                JSONArray hourly = new JSONArray(jsonObject.getJSONArray("hourly"));
+                JSONArray hourly = jsonObject.getJSONArray("hourly");
                 if(hSelect!=4)
                 {
                     temp.setText(hourly.getJSONObject(hSelect).get("temp").toString());
                     Log.d("Tag",temp.toString());
-                    description.setText(hourly.getJSONObject(hSelect).getJSONObject("weather").get("description").toString());
+                    description.setText(hourly.getJSONObject(hSelect).getJSONArray("weather").get("description").toString());
                     Log.d("Tag",description.toString());
                     intialTime = (Integer)hourly.getJSONObject(hSelect).get("dt");
                     timeOff = (Integer)jsonObject.get("timezone_offset");
@@ -165,12 +157,14 @@ public class MainActivity extends AppCompatActivity
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                Log.d("Tag",e.toString());
             }
         }
 
         @Override
         protected JSONObject doInBackground(Void... voids) {
             String exclude = "minutly,daily,current";
+            Log.d("Tag","Lat: "+lat+" Lon: "+lon);
             String api = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&exclude="+exclude+"&appid=bd3781344d566d4bc40873a6423d9d99&units=imperial";
             Log.d("Tag",api);
             String result = "";
