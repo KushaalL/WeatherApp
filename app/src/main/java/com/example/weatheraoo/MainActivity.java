@@ -1,5 +1,7 @@
 package com.example.weatheraoo;
 
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -22,6 +25,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -32,16 +38,14 @@ public class MainActivity extends AppCompatActivity
     TextView text;
     TextView longitude;
     TextView latitude;
-    ImageView image1;
-    ImageView image2;
-    ImageView image3;
-    ImageView image4;
-    TextView text1;
-    TextView text2;
-    TextView text3;
-    TextView text4;
+    ImageView image;
+    TextView temp;
+    TextView time;
+    TextView description;
     String lon = "";
     String lat = "";
+    Spinner spinner;
+    int hSelect = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +55,29 @@ public class MainActivity extends AppCompatActivity
         text = findViewById(R.id.enterZip);
         longitude = findViewById(R.id.textViewLongitude);
         latitude = findViewById(R.id.textViewLatitude);
-        image1 = findViewById(R.id.imageViewH1);
-        image2 = findViewById(R.id.imageViewH2);
-        image3 = findViewById(R.id.imageViewH3);
-        image4 = findViewById(R.id.imageViewH4);
-        text1 = findViewById(R.id.textViewH1);
-        text2 = findViewById(R.id.textViewH2);
-        text3 = findViewById(R.id.textViewH3);
-        text4 = findViewById(R.id.textViewH4);
+        image = findViewById(R.id.imageViewPicture);
+        spinner = findViewById(R.id.spinnerSelectHour);
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(this,R.layout.support_simple_spinner_dropdown_item,list);
+        spinner.setAdapter(arrayAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                hSelect = i-1;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                hSelect = 4;
+            }
+        });
+        temp = findViewById(R.id.textViewTemp);
+        time = findViewById(R.id.textViewTime);
+        description = findViewById(R.id.textViewDescription);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,9 +141,37 @@ public class MainActivity extends AppCompatActivity
     }
     private class async2 extends AsyncTask<Void,Void,JSONObject>
     {
+        int intialTime = 0;
+        int timeOff = 0;
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
+            try {
+                JSONArray hourly = new JSONArray(jsonObject.getJSONArray("hourly"));
+                if(hSelect!=4)
+                {
+                    temp.setText(hourly.getJSONObject(hSelect).get("temp").toString());
+                    Log.d("Tag",temp.toString());
+                    description.setText(hourly.getJSONObject(hSelect).getJSONObject("weather").get("description").toString());
+                    Log.d("Tag",description.toString());
+                    intialTime = (Integer)hourly.getJSONObject(hSelect).get("dt");
+                    timeOff = (Integer)jsonObject.get("timezone_offset");
+                    intialTime = intialTime - timeOff;
+                    Date date = new java.util.Date(intialTime*1000L);
+                    SimpleDateFormat d = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                    String nDate = d.format(date);
+                    time.setText(nDate);
+                    Log.d("Tag",time.toString());
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
         @Override
         protected JSONObject doInBackground(Void... voids) {
-            String api = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&exclude={part}&appid=bd3781344d566d4bc40873a6423d9d99";
+            String exclude = "minutly,daily,current";
+            String api = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&exclude="+exclude+"&appid=bd3781344d566d4bc40873a6423d9d99&units=imperial";
             Log.d("Tag",api);
             String result = "";
             JSONObject myJson = new JSONObject();
@@ -155,6 +202,9 @@ public class MainActivity extends AppCompatActivity
             }
             Log.d("Tag",result);
             return myJson;
+
+
+
         }
     }
 }
