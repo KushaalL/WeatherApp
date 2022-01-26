@@ -27,7 +27,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity
         list.add(2);
         list.add(3);
         list.add(4);
+        list.add(5);
         ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(this,R.layout.support_simple_spinner_dropdown_item,list);
         spinner.setAdapter(arrayAdapter);
         temp = findViewById(R.id.textViewTemp);
@@ -75,6 +78,7 @@ public class MainActivity extends AppCompatActivity
                 Log.d("Tag","Button Click");
                 zip = enterZip.getText().toString();
                 hSelect = (int) spinner.getSelectedItem();
+                hSelect--;
                 new async1().execute();
                 new async2().execute();
             }
@@ -130,7 +134,7 @@ public class MainActivity extends AppCompatActivity
     }
     private class async2 extends AsyncTask<Void,Void,JSONObject>
     {
-        int Time = 0;
+        int epoch = 0;
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
@@ -142,23 +146,13 @@ public class MainActivity extends AppCompatActivity
                     Log.d("Tag1",temp.toString());
                     description.setText(hourly.getJSONObject(hSelect).getJSONArray("weather").getJSONObject(0).getString("description"));
                     Log.d("Tag1",description.toString());
-                    Time = (Integer)hourly.getJSONObject(hSelect).get("dt");
-                    System.out.println("Intial "+Time);
-                    Date date = new java.util.Date(Time*1000L);
-                    SimpleDateFormat d = new java.text.SimpleDateFormat("HH:mm:ss");
-                    String nDate = d.format(date);
-                    System.out.println("Date: "+nDate);
-                    int intDate = Integer.parseInt(nDate);
-//                    if(intDate>12)
-//                    {
-//                        nDate = Integer.toString(intDate-12);
-//                        nDate += " pm";
-//                    }
-//                    else
-//                        nDate += " am";
-                    time.setText(nDate);
+                    epoch = (Integer)hourly.getJSONObject(hSelect).get("dt");
+                    Log.d("Tag", String.valueOf(epoch));
+                    Date date = new java.util.Date(epoch*1000L);
+                    SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm a");
+                    String formattedDate = sdf.format(date);
+                    time.setText(formattedDate);
                     Log.d("Tag",time.toString());
-
                     icon = (hourly.getJSONObject(hSelect).getJSONArray("weather").getJSONObject(0).getString("icon"));
                 }
             } catch (JSONException e) {
@@ -234,4 +228,6 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
+
+
 }
