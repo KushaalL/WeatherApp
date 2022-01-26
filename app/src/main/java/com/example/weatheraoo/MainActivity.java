@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.weatheraoo.databinding.ActivityMainBinding;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,54 +33,35 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {
-    EditText enterZip;
-    Button button;
+
     String zip = "";
-    TextView text;
-    TextView longitude;
-    TextView latitude;
-    ImageView image;
-    TextView temp;
-    TextView time;
-    TextView description;
     String lon = "";
     String lat = "";
-    Spinner spinner;
-    int hSelect = 0;
+    int i = 0;
     String icon = "";
+
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        enterZip = findViewById(R.id.editZip);
-        button = findViewById(R.id.butZip);
-        text = findViewById(R.id.enterZip);
-        longitude = findViewById(R.id.textViewLongitude);
-        latitude = findViewById(R.id.textViewLatitude);
-        image = findViewById(R.id.imageViewPicture);
-        spinner = findViewById(R.id.spinnerSelectHour);
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        list.add(4);
-        list.add(5);
-        ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(this,R.layout.support_simple_spinner_dropdown_item,list);
-        spinner.setAdapter(arrayAdapter);
-        temp = findViewById(R.id.textViewTemp);
-        time = findViewById(R.id.textViewTime);
-        description = findViewById(R.id.textViewDescription);
-        button.setOnClickListener(new View.OnClickListener() {
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
+
+        binding.butZip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("Tag","Button Click");
-                zip = enterZip.getText().toString();
-                hSelect = (int) spinner.getSelectedItem();
-                hSelect--;
+                zip = binding.editZip.getText().toString();
+                i--;
                 new async1().execute();
                 new async2().execute();
             }
@@ -125,8 +108,8 @@ public class MainActivity extends AppCompatActivity
             try {
                 lon = jsonObject.get("lon").toString();
                 lat = jsonObject.get("lat").toString();
-                longitude.setText("Longitude: "+lon);
-                latitude.setText("Latitude: "+lat);
+                binding.textViewLongitude.setText("Longitude: "+lon);
+                binding.textViewLatitude.setText("Latitude: "+lat);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -140,20 +123,21 @@ public class MainActivity extends AppCompatActivity
             super.onPostExecute(jsonObject);
             try {
                 JSONArray hourly = jsonObject.getJSONArray("hourly");
-                if(hSelect!=4)
+                ArrayList<TextView> timeList = new ArrayList<TextView>(Arrays.asList(binding.TimeH1,binding.TimeH2,binding.TimeH3,binding.TimeH4));
+                for(int i = 0;i<4;i++)
                 {
-                    temp.setText(hourly.getJSONObject(hSelect).get("temp").toString()+"°F");
+                    temp.setText(hourly.getJSONObject(i).get("temp").toString()+"°F");
                     Log.d("Tag1",temp.toString());
-                    description.setText(hourly.getJSONObject(hSelect).getJSONArray("weather").getJSONObject(0).getString("description"));
+                    description.setText(hourly.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("description"));
                     Log.d("Tag1",description.toString());
-                    epoch = (Integer)hourly.getJSONObject(hSelect).get("dt");
+                    epoch = (Integer)hourly.getJSONObject(i).get("dt");
                     Log.d("Tag", String.valueOf(epoch));
                     Date date = new java.util.Date(epoch*1000L);
-                    SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm a");
+                    SimpleDateFormat sdf = new java.text.SimpleDateFormat("hh:mm a");
                     String formattedDate = sdf.format(date);
-                    time.setText(formattedDate);
+                    timeList.get(i).setText(formattedDate);
                     Log.d("Tag",time.toString());
-                    icon = (hourly.getJSONObject(hSelect).getJSONArray("weather").getJSONObject(0).getString("icon"));
+                    icon = (hourly.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("icon"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
