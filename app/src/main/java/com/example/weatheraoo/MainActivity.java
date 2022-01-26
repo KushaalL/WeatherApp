@@ -1,8 +1,8 @@
 package com.example.weatheraoo;
 
 
-import android.graphics.drawable.Drawable;
-import android.widget.AdapterView;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +33,6 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
 {
-    String key = "bd3781344d566d4bc40873a6423d9d99";
     EditText enterZip;
     Button button;
     String zip = "";
@@ -48,7 +47,6 @@ public class MainActivity extends AppCompatActivity
     String lat = "";
     Spinner spinner;
     int hSelect = 0;
-    //hello
     String icon = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +66,6 @@ public class MainActivity extends AppCompatActivity
         list.add(4);
         ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(this,R.layout.support_simple_spinner_dropdown_item,list);
         spinner.setAdapter(arrayAdapter);
-
         temp = findViewById(R.id.textViewTemp);
         time = findViewById(R.id.textViewTime);
         description = findViewById(R.id.textViewDescription);
@@ -80,7 +77,6 @@ public class MainActivity extends AppCompatActivity
                 hSelect = (int) spinner.getSelectedItem();
                 new async1().execute();
                 new async2().execute();
-
             }
         });
     }
@@ -106,7 +102,6 @@ public class MainActivity extends AppCompatActivity
                 }
                 JSONObject jsonObject = new JSONObject(result);
                 finalJson = jsonObject;
-
             } catch (MalformedURLException e) {
                 Log.d("Tag",e.toString());
                 Log.d("Tag","Catch1");
@@ -124,7 +119,6 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
             try {
-
                 lon = jsonObject.get("lon").toString();
                 lat = jsonObject.get("lat").toString();
                 longitude.setText("Longitude: "+lon);
@@ -136,10 +130,7 @@ public class MainActivity extends AppCompatActivity
     }
     private class async2 extends AsyncTask<Void,Void,JSONObject>
     {
-        int intialTime = 0;
-        int timeOff = 0;
-        int finalTime = 0;
-
+        int Time = 0;
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
@@ -151,31 +142,30 @@ public class MainActivity extends AppCompatActivity
                     Log.d("Tag1",temp.toString());
                     description.setText(hourly.getJSONObject(hSelect).getJSONArray("weather").getJSONObject(0).getString("description"));
                     Log.d("Tag1",description.toString());
-                    intialTime = (Integer)hourly.getJSONObject(hSelect).get("dt");
-                    System.out.println("Intial "+intialTime);
-                    timeOff = (Integer)jsonObject.get("timezone_offset");
-                    System.out.println("Offset "+timeOff);
-                    Log.d("Time", String.valueOf(timeOff));
-                    finalTime = intialTime;
-                    System.out.println("Final "+finalTime);
-                    Date date = new java.util.Date(finalTime*1000L);
-                    SimpleDateFormat d = new java.text.SimpleDateFormat("HH");
+                    Time = (Integer)hourly.getJSONObject(hSelect).get("dt");
+                    System.out.println("Intial "+Time);
+                    Date date = new java.util.Date(Time*1000L);
+                    SimpleDateFormat d = new java.text.SimpleDateFormat("HH:mm:ss");
                     String nDate = d.format(date);
-                    if(Integer.parseInt(nDate)>12)
-                    {
-                        nDate = Integer.toString(Integer.parseInt(nDate)-12);
-                        nDate += " pm";
-                    }
-                    else
-                        nDate += " am";
+                    System.out.println("Date: "+nDate);
+                    int intDate = Integer.parseInt(nDate);
+//                    if(intDate>12)
+//                    {
+//                        nDate = Integer.toString(intDate-12);
+//                        nDate += " pm";
+//                    }
+//                    else
+//                        nDate += " am";
                     time.setText(nDate);
                     Log.d("Tag",time.toString());
+
                     icon = (hourly.getJSONObject(hSelect).getJSONArray("weather").getJSONObject(0).getString("icon"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 Log.d("Tag",e.toString());
             }
+            new async3().execute();
         }
         @Override
         protected JSONObject doInBackground(Void... voids) {
@@ -215,5 +205,33 @@ public class MainActivity extends AppCompatActivity
             return myJson;
         }
     }
+    private class async3 extends AsyncTask<Void, Void, Bitmap>
+    {
 
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            String iconAPI = "https://openweathermap.org/img/wn/"+icon+".png";
+            System.out.println(iconAPI);
+            InputStream response = null;
+            try {
+                URL url = new URL(iconAPI);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                response = connection.getInputStream();
+            } catch (MalformedURLException e) {
+                Log.d("Tag",e.toString());
+                Log.d("Tag","Catch K");
+            } catch (IOException e) {
+                Log.d("Tag",e.toString());
+                Log.d("Tag","Catch L");
+            }
+            return BitmapFactory.decodeStream(response);
+        }
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            image.setImageBitmap(bitmap);
+
+        }
+    }
 }
