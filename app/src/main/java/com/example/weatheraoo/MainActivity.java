@@ -44,8 +44,11 @@ public class MainActivity extends AppCompatActivity
     String lon = "";
     String lat = "";
     int i = 0;
-    String icon = "";
-
+    String iconH1 = "";
+    String iconH2 = "";
+    String iconH3 = "";
+    String iconH4 = "";
+    ArrayList<String> iconList = new ArrayList<String>(Arrays.asList(iconH1,iconH2,iconH3,iconH4));
     private ActivityMainBinding binding;
 
     @Override
@@ -110,6 +113,7 @@ public class MainActivity extends AppCompatActivity
                 lat = jsonObject.get("lat").toString();
                 binding.textViewLongitude.setText("Longitude: "+lon);
                 binding.textViewLatitude.setText("Latitude: "+lat);
+                binding.textViewLocation.setText("Location "+jsonObject.get("name"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -124,20 +128,19 @@ public class MainActivity extends AppCompatActivity
             try {
                 JSONArray hourly = jsonObject.getJSONArray("hourly");
                 ArrayList<TextView> timeList = new ArrayList<TextView>(Arrays.asList(binding.TimeH1,binding.TimeH2,binding.TimeH3,binding.TimeH4));
+                ArrayList<TextView> tempList = new ArrayList<TextView>(Arrays.asList(binding.TempH1,binding.TempH2,binding.TempH3,binding.TempH4));
+                ArrayList<TextView> desList = new ArrayList<TextView>(Arrays.asList(binding.DesH1,binding.DesH2,binding.DesH3,binding.DesH4));
                 for(int i = 0;i<4;i++)
                 {
-                    temp.setText(hourly.getJSONObject(i).get("temp").toString()+"°F");
-                    Log.d("Tag1",temp.toString());
-                    description.setText(hourly.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("description"));
-                    Log.d("Tag1",description.toString());
+                    tempList.get(i).setText(hourly.getJSONObject(i).get("temp").toString()+"°F");
+                    desList.get(i).setText(hourly.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("description"));
                     epoch = (Integer)hourly.getJSONObject(i).get("dt");
                     Log.d("Tag", String.valueOf(epoch));
                     Date date = new java.util.Date(epoch*1000L);
                     SimpleDateFormat sdf = new java.text.SimpleDateFormat("hh:mm a");
                     String formattedDate = sdf.format(date);
                     timeList.get(i).setText(formattedDate);
-                    Log.d("Tag",time.toString());
-                    icon = (hourly.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("icon"));
+                    iconList.set(i, (hourly.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("icon")));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -147,7 +150,7 @@ public class MainActivity extends AppCompatActivity
         }
         @Override
         protected JSONObject doInBackground(Void... voids) {
-            String exclude = "minutly,daily,current";
+            String exclude = "";
             Log.d("Tag","Lat: "+lat+" Lon: "+lon);
             String api = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&exclude="
                     +exclude+"&appid=bd3781344d566d4bc40873a6423d9d99&units=imperial";
@@ -185,17 +188,27 @@ public class MainActivity extends AppCompatActivity
     }
     private class async3 extends AsyncTask<Void, Void, Bitmap>
     {
-
+        ArrayList<ImageView> imgList = new ArrayList<ImageView>(Arrays.asList(binding.imageH1,binding.imageH2,binding.imageH3,binding.imageH4));
+        Bitmap b1;
+        Bitmap b2;
+        Bitmap b3;
+        Bitmap b4;
+        ArrayList<Bitmap> bitMapList  = new ArrayList<Bitmap>(Arrays.asList(b1,b2,b3,b4));
         @Override
         protected Bitmap doInBackground(Void... voids) {
-            String iconAPI = "https://openweathermap.org/img/wn/"+icon+".png";
-            System.out.println(iconAPI);
             InputStream response = null;
             try {
-                URL url = new URL(iconAPI);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                response = connection.getInputStream();
+                for(int i = 0;i<4;i++)
+                {
+                    String icon = iconList.get(i);
+                    String iconAPI = "https://openweathermap.org/img/wn/"+icon+".png";
+                    System.out.println(iconAPI);
+                    URL url = new URL(iconAPI);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.connect();
+                    response = connection.getInputStream();
+                    bitMapList.set(i,BitmapFactory.decodeStream(response));
+                }
             } catch (MalformedURLException e) {
                 Log.d("Tag",e.toString());
                 Log.d("Tag","Catch K");
@@ -203,12 +216,15 @@ public class MainActivity extends AppCompatActivity
                 Log.d("Tag",e.toString());
                 Log.d("Tag","Catch L");
             }
-            return BitmapFactory.decodeStream(response);
+            return null;
         }
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
-            image.setImageBitmap(bitmap);
+            for(int i = 0;i<4;i++)
+            {
+                imgList.get(i).setImageBitmap(bitMapList.get(i));
+            }
 
         }
     }
