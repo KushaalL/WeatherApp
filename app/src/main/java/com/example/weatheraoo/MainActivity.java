@@ -1,5 +1,7 @@
 package com.example.weatheraoo;
 
+
+import android.graphics.drawable.Drawable;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     String lat = "";
     Spinner spinner;
     int hSelect = 0;
+    String icon = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +137,7 @@ public class MainActivity extends AppCompatActivity
     {
         int intialTime = 0;
         int timeOff = 0;
+        int finalTime = 0;
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
@@ -142,30 +146,42 @@ public class MainActivity extends AppCompatActivity
                 JSONArray hourly = jsonObject.getJSONArray("hourly");
                 if(hSelect!=4)
                 {
-                    temp.setText(hourly.getJSONObject(hSelect).get("temp").toString());
-                    Log.d("Tag",temp.toString());
-                    description.setText(hourly.getJSONObject(hSelect).getJSONArray("weather").get("description").toString());
-                    Log.d("Tag",description.toString());
+                    temp.setText(hourly.getJSONObject(hSelect).get("temp").toString()+"°F");
+                    Log.d("Tag1",temp.toString());
+                    description.setText(hourly.getJSONObject(hSelect).getJSONArray("weather").getJSONObject(0).getString("description"));
+                    Log.d("Tag1",description.toString());
                     intialTime = (Integer)hourly.getJSONObject(hSelect).get("dt");
+                    System.out.println("Intial "+intialTime);
                     timeOff = (Integer)jsonObject.get("timezone_offset");
-                    intialTime = intialTime - timeOff;
-                    Date date = new java.util.Date(intialTime*1000L);
-                    SimpleDateFormat d = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                    System.out.println("Offset "+timeOff);
+                    Log.d("Time", String.valueOf(timeOff));
+                    finalTime = intialTime;
+                    System.out.println("Final "+finalTime);
+                    Date date = new java.util.Date(finalTime*1000L);
+                    SimpleDateFormat d = new java.text.SimpleDateFormat("HH");
                     String nDate = d.format(date);
+                    if(Integer.parseInt(nDate)>12)
+                    {
+                        nDate = Integer.toString(Integer.parseInt(nDate)-12);
+                        nDate += " pm";
+                    }
+                    else
+                        nDate += " am";
                     time.setText(nDate);
                     Log.d("Tag",time.toString());
+                    icon = (hourly.getJSONObject(hSelect).getJSONArray("weather").getJSONObject(0).getString("icon"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 Log.d("Tag",e.toString());
             }
         }
-
         @Override
         protected JSONObject doInBackground(Void... voids) {
             String exclude = "minutly,daily,current";
             Log.d("Tag","Lat: "+lat+" Lon: "+lon);
-            String api = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&exclude="+exclude+"&appid=bd3781344d566d4bc40873a6423d9d99&units=imperial";
+            String api = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&exclude="
+                    +exclude+"&appid=bd3781344d566d4bc40873a6423d9d99&units=imperial";
             Log.d("Tag",api);
             String result = "";
             JSONObject myJson = new JSONObject();
@@ -196,9 +212,7 @@ public class MainActivity extends AppCompatActivity
             }
             Log.d("Tag",result);
             return myJson;
-
-
-
         }
     }
+
 }

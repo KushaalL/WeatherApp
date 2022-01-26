@@ -50,34 +50,34 @@
             app:layout_constraintBottom_toBottomOf="@+id/textViewLongitude"/>
 
     <TextView
-        android:id="@+id/textViewTime"
-        android:layout_width="101dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="124dp"
-        android:layout_marginTop="5dp"
-        android:text="Time:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewPicture" />
+            android:id="@+id/textViewTime"
+            android:layout_width="171dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="124dp"
+            android:layout_marginTop="5dp"
+            android:text="Time:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewPicture"/>
 
     <TextView
-        android:id="@+id/textViewTemp"
-        android:layout_width="101dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="124dp"
-        android:layout_marginTop="5dp"
-        android:text="Temperature:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTime" />
+            android:id="@+id/textViewTemp"
+            android:layout_width="171dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="124dp"
+            android:layout_marginTop="5dp"
+            android:text="Temperature:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTime"/>
 
     <TextView
-        android:id="@+id/textViewDescription"
-        android:layout_width="101dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="124dp"
-        android:layout_marginTop="5dp"
-        android:text="Description:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTemp" />
+            android:id="@+id/textViewDescription"
+            android:layout_width="171dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="124dp"
+            android:layout_marginTop="5dp"
+            android:text="Description:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTemp"/>
 
     <ImageView
         android:id="@+id/imageViewPicture"
