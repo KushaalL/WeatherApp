@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     String lat = "";
     Spinner spinner;
     int hSelect = 0;
+    //hello
     String icon = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
