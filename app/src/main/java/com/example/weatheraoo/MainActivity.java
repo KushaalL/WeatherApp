@@ -13,10 +13,8 @@ import com.example.weatheraoo.databinding.ActivityMainBinding;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -33,6 +31,7 @@ public class MainActivity extends AppCompatActivity
     String iconH2 = "";
     String iconH3 = "";
     String iconH4 = "";
+    String key = "";
     ArrayList<String> iconList = new ArrayList<String>(Arrays.asList(iconH1,iconH2,iconH3,iconH4));
     private ActivityMainBinding binding;
     @Override
@@ -41,6 +40,7 @@ public class MainActivity extends AppCompatActivity
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
         binding.butZip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,7 +54,8 @@ public class MainActivity extends AppCompatActivity
     {
         @Override
         protected JSONObject doInBackground(Void... voids) {
-            String api = "https://api.openweathermap.org/geo/1.0/zip?zip="+zip+",US&appid=bd3781344d566d4bc40873a6423d9d99";
+            Api key = new Api(zip);
+            String api = key.getKey();
             String result = "";
             JSONObject finalJson = new JSONObject();
             try {

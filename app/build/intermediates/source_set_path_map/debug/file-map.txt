@@ -1,0 +1,27 @@
+com.example.weatheraoo.app-cardview-1.0.0-0 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\0751861119962ac0f78d2deaf3a4a68f\transformed\cardview-1.0.0\res
+com.example.weatheraoo.app-fragment-1.3.6-1 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\08be5f2811952d88fdbd324236b15817\transformed\fragment-1.3.6\res
+com.example.weatheraoo.app-recyclerview-1.1.0-2 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\0a48c48e7ac9cdb1931530cff684f072\transformed\recyclerview-1.1.0\res
+com.example.weatheraoo.app-jetified-appcompat-resources-1.4.0-3 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\14acb9adecb53a112a6bf3d41ce6a058\transformed\jetified-appcompat-resources-1.4.0\res
+com.example.weatheraoo.app-appcompat-1.4.0-4 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\254eba655640d52d10d58ef935f2a689\transformed\appcompat-1.4.0\res
+com.example.weatheraoo.app-lifecycle-runtime-2.4.0-5 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\3f01866c3eb0b5387e0f45d19136fe35\transformed\lifecycle-runtime-2.4.0\res
+com.example.weatheraoo.app-jetified-annotation-experimental-1.1.0-6 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\528f96469cb86a51f5b29376625b5ce1\transformed\jetified-annotation-experimental-1.1.0\res
+com.example.weatheraoo.app-jetified-startup-runtime-1.0.0-7 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\7289baf9a60250fc6044c748072f42fd\transformed\jetified-startup-runtime-1.0.0\res
+com.example.weatheraoo.app-jetified-savedstate-1.1.0-8 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\72bba5287bce37b61ffc9cf1fc73e195\transformed\jetified-savedstate-1.1.0\res
+com.example.weatheraoo.app-material-1.4.0-9 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\851f8dbbea09118f2bf4d1ad58826998\transformed\material-1.4.0\res
+com.example.weatheraoo.app-jetified-emoji2-views-helper-1.0.0-10 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\b5e3385e87e4660c6c5422259887e937\transformed\jetified-emoji2-views-helper-1.0.0\res
+com.example.weatheraoo.app-constraintlayout-2.1.2-11 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\cd9e092c1c10963159ea8cf909c37d1b\transformed\constraintlayout-2.1.2\res
+com.example.weatheraoo.app-core-1.7.0-12 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\d8338c189490aee58604e111af57865f\transformed\core-1.7.0\res
+com.example.weatheraoo.app-jetified-emoji2-1.0.0-13 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\dafda43020c998140bb590dd363804eb\transformed\jetified-emoji2-1.0.0\res
+com.example.weatheraoo.app-transition-1.2.0-14 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\e353275a5dad5cd7dd5d51284dfd5302\transformed\transition-1.2.0\res
+com.example.weatheraoo.app-lifecycle-viewmodel-2.3.1-15 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\e988628139fdde72599a7fb0173533f5\transformed\lifecycle-viewmodel-2.3.1\res
+com.example.weatheraoo.app-jetified-viewpager2-1.0.0-16 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\e9a984f11cfdd45d3f413f1476f7f21f\transformed\jetified-viewpager2-1.0.0\res
+com.example.weatheraoo.app-coordinatorlayout-1.1.0-17 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\fafe20f33fc1f1973a5a6b5f88e11979\transformed\coordinatorlayout-1.1.0\res
+com.example.weatheraoo.app-jetified-lifecycle-process-2.4.0-18 C:\Users\Kushaal Latupalli\.gradle\caches\transforms-3\fb7578b74fadc6b60a379e8d199d207c\transformed\jetified-lifecycle-process-2.4.0\res
+com.example.weatheraoo.app-pngs-19 C:\Users\Kushaal Latupalli\Computer Science\Android(Java&Kotlin)\WeatherApp\app\build\generated\res\pngs\debug
+com.example.weatheraoo.app-resValues-20 C:\Users\Kushaal Latupalli\Computer Science\Android(Java&Kotlin)\WeatherApp\app\build\generated\res\resValues\debug
+com.example.weatheraoo.app-rs-21 C:\Users\Kushaal Latupalli\Computer Science\Android(Java&Kotlin)\WeatherApp\app\build\generated\res\rs\debug
+com.example.weatheraoo.app-mergeDebugResources-22 C:\Users\Kushaal Latupalli\Computer Science\Android(Java&Kotlin)\WeatherApp\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir
+com.example.weatheraoo.app-mergeDebugResources-23 C:\Users\Kushaal Latupalli\Computer Science\Android(Java&Kotlin)\WeatherApp\app\build\intermediates\incremental\debug\mergeDebugResources\stripped.dir
+com.example.weatheraoo.app-merged_res-24 C:\Users\Kushaal Latupalli\Computer Science\Android(Java&Kotlin)\WeatherApp\app\build\intermediates\merged_res\debug
+com.example.weatheraoo.app-debug-25 C:\Users\Kushaal Latupalli\Computer Science\Android(Java&Kotlin)\WeatherApp\app\src\debug\res
+com.example.weatheraoo.app-main-26 C:\Users\Kushaal Latupalli\Computer Science\Android(Java&Kotlin)\WeatherApp\app\src\main\res
